@@ -10,7 +10,7 @@ public class test3 : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {if (Application.platform == RuntimePlatform.WindowsEditor) {
+	void Update () {
 			if (Input.GetMouseButtonDown (0)) {
 				CheckTouch (Input.mousePosition, "began");
 			}
@@ -18,18 +18,6 @@ public class test3 : MonoBehaviour {
 			if (Input.GetMouseButtonUp (0)) {
 				CheckTouch (Input.mousePosition, "ended");
 			}
-		} else {
-			if (Application.platform == RuntimePlatform.WindowsPlayer) {
-				if (Input.GetMouseButtonDown (0)) {
-					CheckTouch (Input.mousePosition, "began");
-				}
-				
-				if (Input.GetMouseButtonUp (0)) {
-					CheckTouch (Input.mousePosition, "ended");
-				}
-				
-			}
-		}
 	}
 	
 	void CheckTouch(Vector3 pos, string phase) {
@@ -40,7 +28,7 @@ public class test3 : MonoBehaviour {
 		
 		/* if button is touched... */
 		if (hit.gameObject.name == "dices" && hit && phase == "began") {
-			test_ba.run (-1, 0, this.gameObject);
+			test_ba.run (-1, 0, hit.gameObject);
 		}
 	}
 }

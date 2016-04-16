@@ -19,6 +19,10 @@ namespace Com.BehaviourManamger {
 		int turn_dice();
 		//胜利回家  ps: 我怎么觉得被撞回家也是这个函数
 		void Back_Home(int i);
+
+		//胜利回家
+		void Done(int i);
+
 	}
 
 	public class Behaviour_manager : The_Action {
@@ -66,7 +70,10 @@ namespace Com.BehaviourManamger {
 					iTween.MoveTo (this_one, temp1, (new_pos - low_pos) / 2);
 					//return new_pos;
 					Game_object.subscript[i] = new_pos;
-				Game_object.global[i] = (new_pos + 13 * (i / 4)) % 52;
+					if (new_pos < 40)
+				    	Game_object.global[i] = (new_pos + 13 * (i / 4)) % 52;
+					else
+						Game_object.global[i] = -1;
 					return new_pos;
 			}
 		}
@@ -80,12 +87,13 @@ namespace Com.BehaviourManamger {
 			Vector3 temp1 = new Vector3 (x, y, 0f);
 			iTween.MoveTo (this_one, temp1, 2);
 			Game_object.subscript[i] = 30;
+			Game_object.global[i] = (30 + 13 * (i / 4)) % 52;
 		}
 
 
 		public int turn_dice() {
 			System.Random ran=new System.Random();
-			int turn_num=ran.Next(0,7);
+			int turn_num=ran.Next(0,6);
 			/*Random ran=new Random();
 			//Random.Range(1,7);
 			int turn_num = */
@@ -120,6 +128,8 @@ namespace Com.BehaviourManamger {
 			return turn_num;
 		}
 
+
+
 		public void Back_Home(int i) {
 			GameObject this_one = GameObject.Find( object_manager.plane [i]);
 			int temp = i / 4;
@@ -133,7 +143,16 @@ namespace Com.BehaviourManamger {
 			Vector3 temp_ = new Vector3 (x, y, 0f);
 			iTween.MoveTo (this_one, temp_, 2);
 			Game_object.subscript [i] = 57+temp1;
+			Game_object.global [i] = -1;
 		}
 
+		public void Done(int i) {
+				Back_Home (i);
+				Game_object.done [i] = true;
+
+				GameObject this_one = GameObject.Find( object_manager.plane [i]);
+			    this_one.transform.Rotate(new Vector3(180, 180, 0));
+
+		}
 	}
 }
